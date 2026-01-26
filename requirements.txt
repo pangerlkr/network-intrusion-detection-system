@@ -1,4 +1,5 @@
 # Network Intrusion Detection System - Dependencies
+# Python 3.13 Compatible Versions
 
 # Core networking and packet processing
 scapy==2.5.0
@@ -8,9 +9,8 @@ pyshark==0.6
 # Machine Learning and Data Processing
 scikit-learn==1.5.2
 pandas==2.2.3
-numpy>=1.26.0
-tensorflow==2.14.0
-keras==2.14.0
+numpy>=2.1.0
+tensorflow>=2.20.0
 
 # Web Framework and API
 flask==3.0.0
