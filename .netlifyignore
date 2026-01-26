@@ -1,0 +1,14 @@
+# Ignore Python backend files - only deploy web dashboard
+requirements.txt
+*.py
+src/
+logs/
+__pycache__/
+*.pyc
+.pytest_cache/
+venv/
+env/
+.env
+config.json
+DEPLOYMENT.md
+README.md
