@@ -4,7 +4,7 @@ Flask REST API Backend for Network Intrusion Detection System
 Provides endpoints for real-time monitoring and control
 """
 
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory, send_file
 from flask_cors import CORS
 from datetime import datetime
 import logging
@@ -185,6 +185,25 @@ def stop_monitoring():
         logger.error(f"Error stopping monitoring: {e}")
         return jsonify({'error': str(e)}), 500
 
+
+# Serve web dashboard
+@app.route('/', methods=['GET'])
+def serve_dashboard():
+    """Serve the web dashboard"""
+    try:
+        return send_file('web/index.html')
+    except Exception as e:
+        logger.error(f"Error serving dashboard: {e}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/<path:filename>', methods=['GET'])
+def serve_static(filename):
+    """Serve static files from web directory"""
+    try:
+        return send_from_directory('web', filename)
+    except Exception as e:
+        logger.error(f"Error serving static file {filename}: {e}")
+        return jsonify({'error': 'File not found'}), 404
 
 if __name__ == '__main__':
     # Create logs directory if it doesn't exist
