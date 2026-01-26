@@ -191,7 +191,7 @@ def stop_monitoring():
 def serve_dashboard():
     """Serve the web dashboard"""
     try:
-        return send_file('web/index.html')
+        return send_file(os.path.join(os.path.dirname(__file__), 'web/index.html')')
     except Exception as e:
         logger.error(f"Error serving dashboard: {e}")
         return jsonify({'error': str(e)}), 500
@@ -200,8 +200,7 @@ def serve_dashboard():
 def serve_static(filename):
     """Serve static files from web directory"""
     try:
-        return send_from_directory('web', filename)
-    except Exception as e:
+        return send_from_directory(os.path.join(os.path.dirname(__file__), 'web'), filename)    except Exception as e:
         logger.error(f"Error serving static file {filename}: {e}")
         return jsonify({'error': 'File not found'}), 404
 
