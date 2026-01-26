@@ -4,21 +4,21 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-## 📋 Overview
+## Overview
 
 Advanced Machine Learning-based **Network Intrusion Detection System** for real-time cybersecurity monitoring and threat detection. This project implements cutting-edge techniques in network packet analysis, feature extraction, and anomaly detection using scikit-learn and TensorFlow.
 
 ### Key Features
 
-✅ **Real-time Packet Capture & Analysis** - Scapy-based network sniffing  
-✅ **ML-Powered Detection** - Random Forest, XGBoost, Neural Networks  
-✅ **Anomaly Detection** - Isolation Forest, Autoencoders  
-✅ **Web Dashboard** - Flask API + React frontend  
-✅ **Threat Alerting** - Email, Slack, Syslog notifications  
-✅ **Performance Monitoring** - Prometheus metrics integration  
-✅ **Database Logging** - PostgreSQL for audit trails  
+**Real-time Packet Capture & Analysis** - Scapy-based network sniffing  
+**ML-Powered Detection** - Random Forest, XGBoost, Neural Networks  
+**Anomaly Detection** - Isolation Forest, Autoencoders  
+**Web Dashboard** - Flask API + React frontend  
+**Threat Alerting** - Email, Slack, Syslog notifications  
+**Performance Monitoring** - Prometheus metrics integration  
+**Database Logging** - PostgreSQL for audit trails  
 
-## 🏗️ Project Architecture
+## Project Architecture
 
 ```
 network-intrusion-detection-system/
@@ -125,7 +125,7 @@ python main.py --mode api --log-level INFO
 # Visit http://localhost:5000
 ```
 
-## 🔧 Configuration
+## Configuration
 
 Edit `config/nids_config.yaml`:
 
@@ -152,16 +152,16 @@ alerts:
     webhook_url: "https://hooks.slack.com/..."
 ```
 
-## 📊 Machine Learning Models
+## Machine Learning Models
 
 - **Random Forest** - Signature-based detection
 - **Isolation Forest** - Anomaly detection
 - **Neural Network (LSTM/CNN)** - Sequence-based attacks
 - **Gradient Boosting (XGBoost)** - Complex attack patterns
 
-## 🔐 Security Considerations
+## Security Considerations
 
-⚠️ **Disclaimer**: For educational and authorized testing only
+**Disclaimer**: For educational and authorized testing only
 
 - Requires root/admin privileges for packet capture
 - Implement network segmentation
@@ -169,14 +169,14 @@ alerts:
 - Regularly update threat intelligence
 - Monitor NIDS system itself for tampering
 
-## 📈 Performance Metrics
+## Performance Metrics
 
 - **Detection Accuracy**: ~96% on KDD99/UNSW-NB15 datasets
 - **False Positive Rate**: < 2%
 - **Throughput**: 100K+ packets/second
 - **Latency**: < 100ms detection
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create feature branch (`git checkout -b feature/amazing-feature`)
@@ -184,18 +184,18 @@ alerts:
 4. Push to branch (`git push origin feature/amazing-feature`)
 5. Open Pull Request
 
-## 📝 License
+## License
 
 MIT License - See LICENSE file for details
 
-## 📚 References
+## References
 
 - [MITRE ATT&CK Framework](https://attack.mitre.org/)
 - [KDD99 Dataset](http://kdd.ics.uci.edu/databases/kddcup99/kddcup99.html)
 - [Scapy Documentation](https://scapy.readthedocs.io/)
 - [Scikit-learn ML Guide](https://scikit-learn.org/)
 
-## ⚡ Quick Links
+## Quick Links
 
 - [Installation Guide](docs/INSTALLATION.md)
 - [API Documentation](docs/API_DOCUMENTATION.md)
