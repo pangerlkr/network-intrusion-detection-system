@@ -179,3 +179,47 @@ window.viewAlert = async (id) => {
         alert('Failed to fetch alert details');
     }
 };
+
+// Setup event listeners for start/stop monitoring buttons
+document.addEventListener('DOMContentLoaded', () => {
+    const startBtn = document.getElementById('startBtn');
+    const stopBtn = document.getElementById('stopBtn');
+    
+    if (startBtn) {
+        startBtn.onclick = async () => {
+            try {
+                startBtn.disabled = true;
+                startBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Starting...';
+                const response = await api.startMonitoring();
+                console.log('Monitoring started:', response);
+                startBtn.style.display = 'none';
+                stopBtn.style.display = 'inline-block';
+                alert('NIDS monitoring started successfully!');
+            } catch (error) {
+                console.error('Failed to start monitoring:', error);
+                alert('Failed to start monitoring: ' + error.message);
+                startBtn.disabled = false;
+                startBtn.innerHTML = '<i class="fas fa-play"></i> Start Monitoring';
+            }
+        };
+    }
+    
+    if (stopBtn) {
+        stopBtn.onclick = async () => {
+            try {
+                stopBtn.disabled = true;
+                stopBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Stopping...';
+                const response = await api.stopMonitoring();
+                console.log('Monitoring stopped:', response);
+                startBtn.style.display = 'inline-block';
+                stopBtn.style.display = 'none';
+                alert('NIDS monitoring stopped successfully!');
+            } catch (error) {
+                console.error('Failed to stop monitoring:', error);
+                alert('Failed to stop monitoring: ' + error.message);
+                stopBtn.disabled = false;
+                stopBtn.innerHTML = '<i class="fas fa-stop"></i> Stop Monitoring';
+            }
+        };
+    }
+});
