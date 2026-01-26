@@ -21,8 +21,7 @@ app = Flask(__name__)
 CORS(app)  # Enable CORS for web dashboard
 
 # Setup logging
-logger = setup_logger('api', 'logs/api.log')
-
+logger = setup_logger('api', logging.INFO)
 # Initialize NIDS engine
 config = load_config('config.json')
 nids_engine = None
