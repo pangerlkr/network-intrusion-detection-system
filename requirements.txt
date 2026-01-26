@@ -2,7 +2,7 @@
 
 # Core networking and packet processing
 scapy==2.5.0
-dpkt==1.9.7
+dpkt==1.9.8
 pyshark==0.6
 
 # Machine Learning and Data Processing
