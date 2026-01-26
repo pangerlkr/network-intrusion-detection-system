@@ -182,7 +182,7 @@ MIT License - See LICENSE file for details
 ## Contact & Support
 
 - **GitHub Issues**: Report bugs or request features
-- **Email**: security@nexuscipherguard.com
+- **Email**: contact@pangerlkr.link
 - **Repository**: [pangerlkr/network-intrusion-detection-system](https://github.com/pangerlkr/network-intrusion-detection-system)
 
 ---
