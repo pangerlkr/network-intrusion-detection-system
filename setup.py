@@ -14,7 +14,7 @@ setup(
     name="network-intrusion-detection-system",
     version="0.1.0",
     author="pangerlkr",
-    author_email="security@nexuscipherguard.com",
+    author_email="contact@pangerlkr.link",
     description="ML-powered Network Intrusion Detection System with real-time packet analysis",
     long_description=long_description,
     long_description_content_type="text/markdown",
