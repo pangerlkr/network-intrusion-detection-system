@@ -1,0 +1,66 @@
+# Jekyll Configuration for GitHub Pages
+theme: jekyll-theme-minimal
+title: Network Intrusion Detection System (NIDS)
+description: ML-powered NIDS with real-time packet analysis, anomaly detection, and web-based monitoring
+url: "https://pangerlkr.github.io/network-intrusion-detection-system"
+baseurl: "/network-intrusion-detection-system"
+
+# Site settings
+author: pangerlkr
+email: security@nexuscipherguard.com
+repository: pangerlkr/network-intrusion-detection-system
+
+# Markdown settings
+markdown: kramdown
+kramdown:
+  input: GFM
+  auto_ids: true
+  syntax_highlighter: rouge
+
+# Build settings
+sass:
+  sass_dir: _sass
+exclude:
+  - .gitignore
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - config/
+  - src/
+  - web/
+  - tests/
+  - data/
+  - models/
+  - .github/
+  - README.md
+  - DEPLOYMENT.md
+  - app.py
+  - main.py
+  - requirements.txt
+  - .renderignore
+  - .netlifyignore
+
+# Collections
+collections:
+  docs:
+    output: true
+    permalink: "/:collection/:path/"
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+  - scope:
+      path: "docs"
+      type: "docs"
+    values:
+      layout: "default"
+
+# Plugins
+plugins:
+  - jekyll-seo-tag
+  - jekyll-feed
+  - jekyll-sitemap
