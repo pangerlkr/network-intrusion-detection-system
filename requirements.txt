@@ -6,8 +6,8 @@ dpkt==1.9.8
 pyshark==0.6
 
 # Machine Learning and Data Processing
-scikit-learn==1.3.2
-pandas==2.1.3
+scikit-learn==1.5.2
+spandas==2.1.3
 numpy==1.24.3
 tensorflow==2.14.0
 keras==2.14.0
