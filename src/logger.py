@@ -108,3 +108,30 @@ def setup_threat_logger(log_dir: str = "logs"):
     threat_logger.addHandler(threat_handler)
     
     return threat_logger
+
+
+class ThreatLogger:
+    """
+    Threat Logger class that provides threat detection logging functionality.
+    Wrapper around the standard logger for threat events.
+    """
+    
+    def __init__(self, log_dir: str = "logs"):
+        """Initialize ThreatLogger with a dedicated threat logger."""
+        self.logger = setup_threat_logger(log_dir)
+    
+    def log_threat(self, threat_type: str, severity: str, message: str):
+        """
+        Log a threat event.
+        
+        Args:
+            threat_type (str): Type of threat detected
+            severity (str): Severity level (LOW, MEDIUM, HIGH, CRITICAL)
+            message (str): Threat description/message
+        """
+        log_message = f"[{threat_type}] [{severity}] {message}"
+        self.logger.warning(log_message)
+    
+    def log_alert(self, alert_message: str):
+        """Log a security alert."""
+        self.logger.error(alert_message)
