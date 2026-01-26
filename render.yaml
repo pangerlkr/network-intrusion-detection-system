@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: nids-api
+    runtime: python
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.0
+      - key: PORT
+        value: 5000
+    healthCheckPath: /api/health
