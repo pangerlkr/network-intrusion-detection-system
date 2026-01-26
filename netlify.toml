@@ -1,0 +1,36 @@
+# Netlify Configuration for NIDS Dashboard
+# https://docs.netlify.com/configure-builds/file-based-configuration/
+
+[build]
+  # Directory containing the web assets
+  publish = "web"
+  
+  # Build command (not needed for static site)
+  command = "echo 'Static deployment - no build required'"
+
+# Redirect rules
+[[redirects]]
+  from = "/api/*"
+  to = "https://your-backend-api.com/api/:splat"
+  status = 200
+  force = true
+
+# Headers for security
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; font-src 'self' https://cdn.jsdelivr.net; img-src 'self' data:;"
+
+# Custom 404 page
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 404
+
+# Environment variables (set these in Netlify dashboard)
+# API_BASE_URL = "https://your-backend-api.com"
+# API_KEY = "your-api-key"
