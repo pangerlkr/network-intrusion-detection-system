@@ -191,8 +191,7 @@ def stop_monitoring():
 def serve_dashboard():
     """Serve the web dashboard"""
     try:
-        return send_file(os.path.join(os.path.dirname(__file__), 'web/index.html')')
-    except Exception as e:
+        return send_file(os.path.join(os.path.dirname(__file__), 'web/index.html'))    except Exception as e:
         logger.error(f"Error serving dashboard: {e}")
         return jsonify({'error': str(e)}), 500
 
