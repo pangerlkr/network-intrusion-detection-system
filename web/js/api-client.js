@@ -4,8 +4,7 @@
  */
 
 const api = (() => {
-    let baseUrl = localStorage.getItem('apiUrl') || 'http://localhost:5000';
-
+    let baseUrl = localStorage.getItem('apiUrl') || `${window.location.origin}`;
     return {
         baseUrl,
         
