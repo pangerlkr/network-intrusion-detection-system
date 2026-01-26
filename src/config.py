@@ -135,3 +135,19 @@ class Config:
     
     def __str__(self) -> str:
         return yaml.dump(self.config, default_flow_style=False)
+
+
+def load_config(config_path: str = 'config/nids_config.yaml') -> Config:
+    """
+    Load and return a Config instance.
+    
+    This function provides a simple interface for loading configuration
+    from a YAML file or using default configuration.
+    
+    Args:
+        config_path (str): Path to YAML configuration file
+        
+    Returns:
+        Config: Configured Config instance ready for use
+    """
+    return Config(config_path)
