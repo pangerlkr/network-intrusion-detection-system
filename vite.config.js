@@ -14,5 +14,7 @@ export default defineConfig({
   build: {
     outDir: '../dist',
     emptyOutDir: true,
+    assetsInclude: ['**/*.woff2', '**/*.png'],
   },
+  publicDir: 'public',
 });
