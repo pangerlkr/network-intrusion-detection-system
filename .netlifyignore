@@ -1,4 +1,5 @@
 # Ignore Python backend files - only deploy web dashboard
+backend/
 requirements.txt
 *.py
 src/
