@@ -70,7 +70,7 @@ def main():
     args = setup_argparse()
     
     # Setup logger
-    logger = setup_logger('NIDS', level=getattr(logging, args.log_level))
+    logger = setup_logger('NIDS', log_level=getattr(logging, args.log_level))
     logger.info("=" * 60)
     logger.info("Network Intrusion Detection System (NIDS) v1.0.0")
     logger.info("=" * 60)
@@ -83,8 +83,8 @@ def main():
         if args.mode == 'detection':
             # Start real-time intrusion detection
             logger.info("Starting NIDS in DETECTION mode...")
-            engine = NIDSEngine(config, args.model, args.interface)
-            engine.start_monitoring()
+            engine = NIDSEngine(args.config)
+            engine.start()
             
         elif args.mode == 'training':
             # Train ML model
@@ -96,7 +96,7 @@ def main():
         elif args.mode == 'api':
             # Start web API and dashboard
             logger.info("Starting NIDS in API mode...")
-            app = create_app(config)
+            from app import app
             app.run(host='0.0.0.0', port=5000, debug=False)
     
     except KeyboardInterrupt:

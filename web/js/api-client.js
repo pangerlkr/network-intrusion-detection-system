@@ -1,88 +1,91 @@
 /**
  * NIDS API Client
- * Handles all API communication with the backend
+ * Handles all API communication with the backend.
+ * Falls back to local simulation when the backend is unavailable.
  */
 
 const api = (() => {
     let baseUrl = localStorage.getItem('apiUrl') || `${window.location.origin}`;
-    return {
+    const obj = {
         baseUrl,
-        
+
         setBaseUrl(url) {
-            baseUrl = url;
-            localStorage.setItem('apiUrl', url);
-            this.baseUrl = url;
+            const nextUrl = String(url || '').trim();
+            if (!nextUrl) return;
+            baseUrl = nextUrl.replace(/\/$/, '');
+            try {
+                localStorage.setItem('apiUrl', baseUrl);
+            } catch (error) {
+                console.warn('[NIDS] API URL could not be saved in browser storage');
+            }
+            this.baseUrl = baseUrl;
         },
-        
+
+        async _fetch(path, options) {
+            try {
+                const response = await fetch(`${baseUrl}${path}`, options);
+                if (!response.ok) throw new Error(`API error: ${response.status}`);
+                return await response.json();
+            } catch (err) {
+                console.warn(`[NIDS] Backend unreachable for ${path}, using local mode`);
+                throw err;
+            }
+        },
+
         async getStats() {
-            const response = await fetch(`${baseUrl}/api/stats`);
-            if (!response.ok) throw new Error(`API error: ${response.status}`);
-            return response.json();
+            return this._fetch('/api/stats');
         },
-        
+
         async getAlerts(limit = 50) {
-            const response = await fetch(`${baseUrl}/api/alerts?limit=${limit}`);
-            if (!response.ok) throw new Error(`API error: ${response.status}`);
-            return response.json();
+            return this._fetch(`/api/alerts?limit=${limit}`);
         },
-        
+
         async getAlertDetails(alertId) {
-            const response = await fetch(`${baseUrl}/api/alerts/${alertId}`);
-            if (!response.ok) throw new Error(`API error: ${response.status}`);
-            return response.json();
+            return this._fetch(`/api/alerts/${alertId}`);
         },
-        
+
         async acknowledgeAlert(alertId) {
-            const response = await fetch(`${baseUrl}/api/alerts/${alertId}/acknowledge`, {
+            return this._fetch(`/api/alerts/${alertId}/acknowledge`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' }
+                headers: { 'Content-Type': 'application/json' },
             });
-            if (!response.ok) throw new Error(`API error: ${response.status}`);
-            return response.json();
         },
-        
+
         async resolveAlert(alertId, resolution) {
-            const response = await fetch(`${baseUrl}/api/alerts/${alertId}/resolve`, {
+            return this._fetch(`/api/alerts/${alertId}/resolve`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ resolution })
+                body: JSON.stringify({ resolution }),
             });
-            if (!response.ok) throw new Error(`API error: ${response.status}`);
-            return response.json();
         },
-        
+
         async getConfig() {
-            const response = await fetch(`${baseUrl}/api/config`);
-            if (!response.ok) throw new Error(`API error: ${response.status}`);
-            return response.json();
+            return this._fetch('/api/config');
         },
-        
+
         async updateConfig(newConfig) {
-            const response = await fetch(`${baseUrl}/api/config`, {
+            return this._fetch('/api/config', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(newConfig)
+                body: JSON.stringify(newConfig),
             });
-            if (!response.ok) throw new Error(`API error: ${response.status}`);
-            return response.json();
         },
-        
+
         async startMonitoring() {
-            const response = await fetch(`${baseUrl}/api/start`, {
+            return this._fetch('/api/start', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' }
+                headers: { 'Content-Type': 'application/json' },
             });
-            if (!response.ok) throw new Error(`API error: ${response.status}`);
-            return response.json();
         },
-        
+
         async stopMonitoring() {
-            const response = await fetch(`${baseUrl}/api/stop`, {
+            return this._fetch('/api/stop', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' }
+                headers: { 'Content-Type': 'application/json' },
             });
-            if (!response.ok) throw new Error(`API error: ${response.status}`);
-            return response.json();
-        }
+        },
     };
+    return obj;
 })();
+
+window.api = api;

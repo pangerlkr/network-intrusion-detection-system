@@ -3,172 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NIDS - Network Intrusion Detection System</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>NIDS — Network Intrusion Detection System</title>
+    <link rel="icon" type="image/png" href="https://pangerlkr.link/logo.png">
+    <link rel="apple-touch-icon" href="https://pangerlkr.link/logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-dark bg-dark sticky-top">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-                <i class="fas fa-shield-alt"></i> NIDS Dashboard
-            </a>
-            <div class="d-flex align-items-center">
-                <div class="status-badge" id="systemStatus">
-                    <span class="status-indicator online"></span>
-                    <span>System Online</span>
-                </div>
-                <button class="btn btn-outline-light ms-3" data-bs-toggle="modal" data-bs-target="#settingsModal">
-                    <i class="fas fa-cog"></i> Settings
-                </button>
-                                <button class="btn btn-outline-success ms-2" id="startBtn">
-                    <i class="fas fa-play"></i> Start Monitoring
-                </button>
-                <button class="btn btn-outline-danger ms-2" id="stopBtn">
-                    <i class="fas fa-stop"></i> Stop Monitoring
-                </button>
+    <!-- Top Bar -->
+    <nav class="topbar">
+        <div class="topbar-left">
+            <img src="https://pangerlkr.link/logo.png" alt="NIDS Logo" class="logo">
+            <div class="brand-text">
+                <span class="brand-title">NIDS</span>
+                <span class="brand-sub">Network Intrusion Detection</span>
             </div>
+        </div>
+        <div class="topbar-right">
+            <div class="status-pill" id="systemStatus">
+                <span class="status-dot online" id="statusDot"></span>
+                <span id="statusText">Standby</span>
+            </div>
+            <button class="btn-ghost" data-bs-toggle="modal" data-bs-target="#settingsModal">
+                <i class="fas fa-cog"></i>
+            </button>
+            <button class="btn-go" id="startBtn">
+                <i class="fas fa-play"></i> Start
+            </button>
+            <button class="btn-stop" id="stopBtn" style="display:none;">
+                <i class="fas fa-stop"></i> Stop
+            </button>
         </div>
     </nav>
 
-    <!-- Main Container -->
-    <div class="container-fluid p-4">
-        <!-- KPI Cards Row -->
-        <div class="row mb-4">
-            <div class="col-md-3 mb-3">
-                <div class="kpi-card">
-                    <div class="kpi-icon threat">
-                        <i class="fas fa-exclamation-triangle"></i>
-                    </div>
-                    <div class="kpi-content">
-                        <h6>Threats Detected</h6>
-                        <p class="kpi-value" id="threatsCount">0</p>
-                        <small class="text-muted">Last 24 hours</small>
-                    </div>
+    <div class="app-body">
+        <!-- KPI Row -->
+        <div class="kpi-grid">
+            <div class="kpi-card kpi-threat">
+                <div class="kpi-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                <div class="kpi-body">
+                    <span class="kpi-label">Threats Detected</span>
+                    <span class="kpi-value" id="threatsCount">0</span>
+                    <span class="kpi-foot">Last 24 hours</span>
                 </div>
             </div>
-            <div class="col-md-3 mb-3">
-                <div class="kpi-card">
-                    <div class="kpi-icon critical">
-                        <i class="fas fa-fire"></i>
-                    </div>
-                    <div class="kpi-content">
-                        <h6>Critical Alerts</h6>
-                        <p class="kpi-value" id="criticalCount">0</p>
-                        <small class="text-muted">Requires attention</small>
-                    </div>
+            <div class="kpi-card kpi-critical">
+                <div class="kpi-icon"><i class="fas fa-fire"></i></div>
+                <div class="kpi-body">
+                    <span class="kpi-label">Critical Alerts</span>
+                    <span class="kpi-value" id="criticalCount">0</span>
+                    <span class="kpi-foot">Requires attention</span>
                 </div>
             </div>
-            <div class="col-md-3 mb-3">
-                <div class="kpi-card">
-                    <div class="kpi-icon packets">
-                        <i class="fas fa-project-diagram"></i>
-                    </div>
-                    <div class="kpi-content">
-                        <h6>Packets Processed</h6>
-                        <p class="kpi-value" id="packetsCount">0</p>
-                        <small class="text-muted">Real-time</small>
-                    </div>
+            <div class="kpi-card kpi-packets">
+                <div class="kpi-icon"><i class="fas fa-project-diagram"></i></div>
+                <div class="kpi-body">
+                    <span class="kpi-label">Packets Processed</span>
+                    <span class="kpi-value" id="packetsCount">0</span>
+                    <span class="kpi-foot">Real-time</span>
                 </div>
             </div>
-            <div class="col-md-3 mb-3">
-                <div class="kpi-card">
-                    <div class="kpi-icon detection">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <div class="kpi-content">
-                        <h6>Detection Rate</h6>
-                        <p class="kpi-value" id="detectionRate">0%</p>
-                        <small class="text-muted">Accuracy</small>
-                    </div>
+            <div class="kpi-card kpi-detection">
+                <div class="kpi-icon"><i class="fas fa-check-circle"></i></div>
+                <div class="kpi-body">
+                    <span class="kpi-label">Detection Rate</span>
+                    <span class="kpi-value" id="detectionRate">—</span>
+                    <span class="kpi-foot">Accuracy</span>
                 </div>
             </div>
         </div>
 
         <!-- Charts Row -->
-        <div class="row mb-4">
-            <div class="col-lg-8">
-                <div class="chart-card">
-                    <div class="card-header">
-                        <h5>Threat Detection Timeline</h5>
-                    </div>
-                    <div class="card-body">
-                        <canvas id="threatChart" height="80"></canvas>
-                    </div>
+        <div class="chart-row">
+            <div class="panel panel-lg">
+                <div class="panel-head">
+                    <h5><i class="fas fa-chart-line"></i> Threat Detection Timeline</h5>
+                    <span class="panel-tag live">LIVE</span>
+                </div>
+                <div class="panel-body chart-wrap">
+                    <canvas id="threatChart"></canvas>
                 </div>
             </div>
-            <div class="col-lg-4">
-                <div class="chart-card">
-                    <div class="card-header">
-                        <h5>Alert Distribution</h5>
-                    </div>
-                    <div class="card-body">
-                        <canvas id="alertChart"></canvas>
-                    </div>
+            <div class="panel">
+                <div class="panel-head">
+                    <h5><i class="fas fa-chart-pie"></i> Alert Distribution</h5>
+                </div>
+                <div class="panel-body chart-wrap-sm">
+                    <canvas id="alertChart"></canvas>
                 </div>
             </div>
         </div>
 
-        <!-- Alerts Table Row -->
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="chart-card">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5>Recent Alerts</h5>
-                        <button class="btn btn-sm btn-outline-primary" id="refreshBtn">
-                            <i class="fas fa-sync-alt"></i> Refresh
-                        </button>
+        <!-- Alerts Table -->
+        <div class="panel">
+            <div class="panel-head panel-head-row">
+                <h5><i class="fas fa-bell"></i> Recent Alerts</h5>
+                <div class="panel-actions">
+                    <div class="filter-chips">
+                        <button class="chip active" data-filter="all">All</button>
+                        <button class="chip" data-filter="critical">Critical</button>
+                        <button class="chip" data-filter="high">High</button>
+                        <button class="chip" data-filter="medium">Medium</button>
+                        <button class="chip" data-filter="low">Low</button>
                     </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Timestamp</th>
-                                        <th>Threat Type</th>
-                                        <th>Source IP</th>
-                                        <th>Destination IP</th>
-                                        <th>Severity</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="alertsTable">
-                                    <tr>
-                                        <td colspan="7" class="text-center text-muted">Loading alerts...</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                    <button class="btn-ghost btn-sm" id="clearAlertsBtn" title="Clear all alerts">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                    <button class="btn-ghost btn-sm" id="refreshBtn" title="Refresh">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
                 </div>
+            </div>
+            <div class="panel-body no-pad">
+                <table class="alerts-table">
+                    <thead>
+                        <tr>
+                            <th>Timestamp</th>
+                            <th>Threat Type</th>
+                            <th>Source IP</th>
+                            <th>Destination</th>
+                            <th>Severity</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="alertsTable">
+                        <tr><td colspan="7" class="empty-state">No alerts — monitoring standby</td></tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 
-        <!-- Network Activity Row -->
-        <div class="row">
-            <div class="col-lg-6 mb-4">
-                <div class="chart-card">
-                    <div class="card-header">
-                        <h5>Network Traffic by Protocol</h5>
-                    </div>
-                    <div class="card-body">
-                        <canvas id="protocolChart"></canvas>
-                    </div>
+        <!-- Bottom Row -->
+        <div class="chart-row">
+            <div class="panel">
+                <div class="panel-head">
+                    <h5><i class="fas fa-network-wired"></i> Traffic by Protocol</h5>
+                </div>
+                <div class="panel-body chart-wrap-sm">
+                    <canvas id="protocolChart"></canvas>
                 </div>
             </div>
-            <div class="col-lg-6 mb-4">
-                <div class="chart-card">
-                    <div class="card-header">
-                        <h5>Top Threat Sources</h5>
-                    </div>
-                    <div class="card-body">
-                        <div id="topThreats">
-                            <p class="text-muted">Loading...</p>
-                        </div>
-                    </div>
+            <div class="panel">
+                <div class="panel-head">
+                    <h5><i class="fas fa-crosshairs"></i> Top Threat Sources</h5>
+                </div>
+                <div class="panel-body" id="topThreats">
+                    <div class="empty-state">No threat data yet</div>
                 </div>
             </div>
         </div>
@@ -177,45 +161,62 @@
     <!-- Settings Modal -->
     <div class="modal fade" id="settingsModal" tabindex="-1">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content settings-modal">
                 <div class="modal-header">
-                    <h5 class="modal-title">System Settings</h5>
+                    <h5 class="modal-title"><i class="fas fa-sliders-h"></i> System Settings</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <form id="settingsForm">
-                        <div class="mb-3">
-                            <label class="form-label">API Server URL</label>
-                            <input type="text" class="form-control" id="apiUrl" value="http://localhost:5000">
+                        <div class="form-group">
+                            <label>API Server URL</label>
+                            <input type="text" class="form-input" id="apiUrl" value="http://localhost:5000">
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Refresh Interval (seconds)</label>
-                            <input type="number" class="form-control" id="refreshInterval" value="5" min="1">
+                        <div class="form-group">
+                            <label>Refresh Interval (seconds)</label>
+                            <input type="number" class="form-input" id="refreshInterval" value="3" min="1">
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Display Alerts</label>
-                            <input type="number" class="form-control" id="alertsLimit" value="10" min="1">
+                        <div class="form-group">
+                            <label>Display Alerts Limit</label>
+                            <input type="number" class="form-input" id="alertsLimit" value="20" min="1">
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="autoRefresh" checked>
-                            <label class="form-check-label" for="autoRefresh">
-                                Auto-refresh data
-                            </label>
+                            <label class="form-check-label" for="autoRefresh">Auto-refresh data</label>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="saveSettings">Save Settings</button>
+                    <button type="button" class="btn-ghost" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn-go" id="saveSettings">Save Settings</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
-    <script src="js/api-client.js"></script>
-    <script src="js/dashboard.js"></script>
+    <!-- Alert Detail Modal -->
+    <div class="modal fade" id="alertDetailModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content settings-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-info-circle"></i> Alert Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="alertDetailBody">
+                    <p class="empty-state">Select an alert to view details</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-ghost" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn-go" id="ackBtn">Acknowledge</button>
+                    <button type="button" class="btn-stop" id="resolveBtn">Resolve</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script type="module" src="/js/main.js"></script>
 </body>
 </html>

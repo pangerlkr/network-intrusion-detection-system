@@ -15,7 +15,7 @@ from threading import Thread
 # Import NIDS components
 from src.nids_engine import NIDSEngine
 from src.logger import setup_logger
-from src.config import load_config
+from src.config import load_config, Config
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for web dashboard
@@ -119,7 +119,7 @@ def resolve_alert(alert_id):
 def get_config():
     """Get current NIDS configuration"""
     try:
-        return jsonify(config), 200
+        return jsonify(config.config), 200
     except Exception as e:
         logger.error(f"Error fetching config: {e}")
         return jsonify({'error': str(e)}), 500
@@ -130,16 +130,15 @@ def update_config():
     """Update NIDS configuration"""
     try:
         new_config = request.json
-        # Validate and update config
         global config
-        config.update(new_config)
+        Config._merge_configs(config.config, new_config)
         
         # Save to file
         with open('config.json', 'w') as f:
-            json.dump(config, f, indent=2)
+            json.dump(config.config, f, indent=2)
         
         logger.info("Configuration updated successfully")
-        return jsonify({'message': 'Configuration updated', 'config': config}), 200
+        return jsonify({'message': 'Configuration updated', 'config': config.config}), 200
     except Exception as e:
         logger.error(f"Error updating config: {e}")
         return jsonify({'error': str(e)}), 500
@@ -151,11 +150,11 @@ def start_monitoring():
     try:
         global nids_engine, monitoring_thread, stats_storage
         
-        if nids_engine and nids_engine.running:
+        if nids_engine and nids_engine.is_running:
             return jsonify({'message': 'Monitoring already running'}), 200
         
         # Initialize and start NIDS engine
-        nids_engine = NIDSEngine(config)
+        nids_engine = NIDSEngine('config.json')
         monitoring_thread = Thread(target=nids_engine.start)
         monitoring_thread.start()
         
@@ -192,8 +191,8 @@ def serve_dashboard():
     """Serve the web dashboard"""
     try:
         return send_file(os.path.join(os.path.dirname(__file__), 'web/index.html'))
-        except Exception as e:
-                        logger.error(f"Error serving dashboard: {e}")
+    except Exception as e:
+        logger.error(f"Error serving dashboard: {e}")
         return jsonify({'error': str(e)}), 500
 
 @app.route('/<path:filename>', methods=['GET'])
@@ -201,8 +200,8 @@ def serve_static(filename):
     """Serve static files from web directory"""
     try:
         return send_from_directory(os.path.join(os.path.dirname(__file__), 'web'), filename)
-        except Exception as e:
-                        logger.error(f"Error serving static file {filename}: {e}")
+    except Exception as e:
+        logger.error(f"Error serving static file {filename}: {e}")
         return jsonify({'error': 'File not found'}), 404
 
 if __name__ == '__main__':

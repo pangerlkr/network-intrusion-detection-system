@@ -120,16 +120,19 @@ class ThreatLogger:
         """Initialize ThreatLogger with a dedicated threat logger."""
         self.logger = setup_threat_logger(log_dir)
     
-    def log_threat(self, threat_type: str, severity: str, message: str):
+    def log_threat(self, threat_type: str, severity: str, message, details: dict = None):
         """
         Log a threat event.
         
         Args:
             threat_type (str): Type of threat detected
             severity (str): Severity level (LOW, MEDIUM, HIGH, CRITICAL)
-            message (str): Threat description/message
+            message: Threat description/message (string or dict)
+            details (dict, optional): Additional structured details to include
         """
         log_message = f"[{threat_type}] [{severity}] {message}"
+        if details:
+            log_message += f" | {details}"
         self.logger.warning(log_message)
     
     def log_alert(self, alert_message: str):
